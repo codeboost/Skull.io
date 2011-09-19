@@ -1,0 +1,18 @@
+{
+    "name": "skull.io"
+  , "version": "0.1.0"
+  , "description": "Real-time web apps with Backbone.js and Socket.io"
+  , "homepage": "http://skull.io"
+  , "keywords": ["backbone.js", "skulljs", "websocket", "socket", "realtime", "socket.io", "comet", "ajax"]
+  , "author": "Florin Braghis <florin@libertv.ro>"
+  , "repository":{
+        "type": "git"
+      , "url": "https://github.com/codeboost/skull.io.git"
+    }
+  , "dependencies": {
+        "socket.io": ">=0.8.4",
+				"underscore": "*"
+    }
+  , "main": "index"
+  , "engines": { "node": ">= 0.4.0" }
+}
