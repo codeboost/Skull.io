@@ -144,7 +144,7 @@ class Model extends LockableModel
 			else
 				cbo.error()
 				if status is 'moderating' then @trigger 'moderating', @, data
-				
+
 class Collection extends Backbone.Collection
 	
 	constructor: (models, options) ->
@@ -161,7 +161,7 @@ class Collection extends Backbone.Collection
 		@socket.on 'create', (data) =>
 			log 'collection.add'
 			#check for temporary id
-			id = data.__id || data.id
+			id = data.__id || data[Backbone.Model::idAttr]
 			if id
 				#if present, update with the real id
 				log 'add -> already exists -> updating '
@@ -172,15 +172,16 @@ class Collection extends Backbone.Collection
 			@add data
 			
 		@socket.on 'update', (data) =>
-			id = data.id
+			id = data[Backbone.Model::idAttr]
 			log 'collection.update, id: ' + id
 
 			model = @get id if id
 			model.set data if model
 		
 		@socket.on 'delete', (data) =>
-			log 'collection.remove, id: ' + data.id
-			model = @get data.id if data.id
+			id = data[Backbone.Model::idAttr]
+			log 'collection.remove, id: ' + id
+			model = @get id if id
 			@remove model if model
 
 		#server notifies that a model in this collection is locked
@@ -245,10 +246,7 @@ class Collection extends Backbone.Collection
 			log 'Sync result: status=' + status + '; data.__id = ' + data?.__id
 			
 			if status is null or (status is 'moderating' and method is 'create')
-				
-				data.id ?= data.__id if data
-				
-				cbo.success data
+					cbo.success data
 			else
 				#cancel the requested method
 				cbo.error model
