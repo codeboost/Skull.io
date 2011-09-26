@@ -161,7 +161,7 @@ class Collection extends Backbone.Collection
 		@socket.on 'create', (data) =>
 			log 'collection.add'
 			#check for temporary id
-			id = data.__id || data[Backbone.Model::idAttr]
+			id = data.__id || data[Backbone.Model::idAttribute]
 			if id
 				#if present, update with the real id
 				log 'add -> already exists -> updating '
@@ -172,14 +172,14 @@ class Collection extends Backbone.Collection
 			@add data
 			
 		@socket.on 'update', (data) =>
-			id = data[Backbone.Model::idAttr]
+			id = data[Backbone.Model::idAttribute]
 			log 'collection.update, id: ' + id
 
 			model = @get id if id
 			model.set data if model
 		
 		@socket.on 'delete', (data) =>
-			id = data[Backbone.Model::idAttr]
+			id = data[Backbone.Model::idAttribute]
 			log 'collection.remove, id: ' + id
 			model = @get id if id
 			@remove model if model
