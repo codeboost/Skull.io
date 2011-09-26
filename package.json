@@ -1,6 +1,6 @@
 {
     "name": "skull.io"
-  , "version": "0.1.0"
+  , "version": "0.1.1"
   , "description": "Real-time web apps with Backbone.js and Socket.io"
   , "homepage": "http://skull.io"
   , "keywords": ["backbone.js", "skulljs", "websocket", "socket", "realtime", "socket.io", "comet", "ajax"]
