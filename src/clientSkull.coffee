@@ -109,7 +109,7 @@ class Model extends LockableModel
 				@unset 'moderating'
 				@trigger 'rejected', modinfo
 				
-			@socket.on 'broadcast', (data) ->
+			@socket.on 'broadcast', (data) =>
 				@trigger 'broadcast', data
 		
 			@bind 'lock', (model, callback) =>
@@ -186,6 +186,9 @@ class Collection extends Backbone.Collection
 			log 'collection.remove, id: ' + id
 			model = @get id if id
 			@remove model if model
+			
+		@socket.on 'broadcast', (data) =>
+			@trigger 'broadcast', data
 
 		#server notifies that a model in this collection is locked
 		@socket.on 'lock', (locks, user) =>
