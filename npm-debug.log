@@ -1,0 +1,331 @@
+info it worked if it ends with ok
+verbose cli [ 'node', '/usr/local/bin/npm', 'publish' ]
+info using npm@1.0.27
+info using node@v0.4.9
+verbose config file /home/florin/.npmrc
+verbose config file /usr/local/etc/npmrc
+verbose publish [ '.' ]
+silly testEngine { name: 'skull.io',
+silly testEngine   version: '0.1.3',
+silly testEngine   description: 'Real-time web apps with Backbone.js and Socket.io',
+silly testEngine   homepage: 'http://skull.io',
+silly testEngine   keywords: 
+silly testEngine    [ 'backbone.js',
+silly testEngine      'skulljs',
+silly testEngine      'websocket',
+silly testEngine      'socket',
+silly testEngine      'realtime',
+silly testEngine      'socket.io',
+silly testEngine      'comet',
+silly testEngine      'ajax' ],
+silly testEngine   author: { name: 'Florin Braghis', email: 'florin@libertv.ro' },
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/codeboost/Skull.io.git' },
+silly testEngine   dependencies: { 'socket.io': '>=0.8.4', underscore: '*' },
+silly testEngine   main: 'index',
+silly testEngine   engines: { node: '>= 0.4.0' },
+silly testEngine   _npmJsonOpts: 
+silly testEngine    { file: '/home/florin/UbuntuCode/skulljs/package.json',
+silly testEngine      wscript: false,
+silly testEngine      contributors: false,
+silly testEngine      serverjs: false },
+silly testEngine   _id: 'skull.io@0.1.3',
+silly testEngine   devDependencies: {},
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.27',
+silly testEngine   _nodeVersion: 'v0.4.9',
+silly testEngine   _defaultsLoaded: true,
+silly testEngine   scripts: {} }
+verbose caching /home/florin/UbuntuCode/skulljs/package.json
+verbose loadDefaults skull.io@0.1.3
+info prepublish skull.io@0.1.3
+verbose cache add [ '.', null ]
+silly cache add: name, spec, args [ undefined, '.', [ '.', null ] ]
+verbose parsed url { pathname: '.', href: '.' }
+silly testEngine { name: 'skull.io',
+silly testEngine   version: '0.1.3',
+silly testEngine   description: 'Real-time web apps with Backbone.js and Socket.io',
+silly testEngine   homepage: 'http://skull.io',
+silly testEngine   keywords: 
+silly testEngine    [ 'backbone.js',
+silly testEngine      'skulljs',
+silly testEngine      'websocket',
+silly testEngine      'socket',
+silly testEngine      'realtime',
+silly testEngine      'socket.io',
+silly testEngine      'comet',
+silly testEngine      'ajax' ],
+silly testEngine   author: { name: 'Florin Braghis', email: 'florin@libertv.ro' },
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/codeboost/Skull.io.git' },
+silly testEngine   dependencies: { 'socket.io': '>=0.8.4', underscore: '*' },
+silly testEngine   main: 'index',
+silly testEngine   engines: { node: '>= 0.4.0' },
+silly testEngine   _npmJsonOpts: 
+silly testEngine    { file: 'package.json',
+silly testEngine      wscript: false,
+silly testEngine      contributors: false,
+silly testEngine      serverjs: false },
+silly testEngine   _id: 'skull.io@0.1.3',
+silly testEngine   devDependencies: {},
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.27',
+silly testEngine   _nodeVersion: 'v0.4.9',
+silly testEngine   _defaultsLoaded: true,
+silly testEngine   path: '/home/florin/UbuntuCode/skulljs',
+silly testEngine   bundleDependencies: [] }
+verbose caching package.json
+verbose loadDefaults skull.io@0.1.3
+verbose pack /home/florin/UbuntuCode/skulljs /tmp/npm-1317982219723/1317982219723-0.9770307645667344/tmp.tgz
+verbose mkdir (expected) error ENOENT, No such file or directory '/tmp/npm-1317982219723'
+verbose mkdir (expected) error ENOENT, No such file or directory '/tmp/npm-1317982219723/1317982219723-0.9770307645667344'
+verbose mkdir done: /tmp/npm-1317982219723/1317982219723-0.9770307645667344 755
+verbose mkdir'ed /tmp/npm-1317982219723/1317982219723-0.9770307645667344
+verbose tar about to write tar and gzip it.
+silly tar args [ '-cvf',
+silly tar args   '-',
+silly tar args   'skulljs/README.md',
+silly tar args   'skulljs/package.json',
+silly tar args   'skulljs/.gitignore',
+silly tar args   'skulljs/index.js',
+silly tar args   'skulljs/memoryModel.js',
+silly tar args   'skulljs/compile.sh',
+silly tar args   'skulljs/lib/clientSkull.js',
+silly tar args   'skulljs/lib/memoryModel.js',
+silly tar args   'skulljs/lib/serverSkull.js',
+silly tar args   'skulljs/src/serverSkull.coffee',
+silly tar args   'skulljs/src/memoryModel.coffee',
+silly tar args   'skulljs/src/clientSkull.coffee' ]
+verbose success tar -cvf - <file list elided>
+verbose mkdir (expected) error ENOENT, No such file or directory '/tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents'
+verbose mkdir (expected) error ENOENT, No such file or directory '/tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm'
+verbose mkdir done: /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm 755
+verbose unpack_ uid, gid [ undefined, undefined ]
+verbose unpackTarget /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/package
+silly gunzTarPerm modes [ '755', '644' ]
+verbose success gzip "--stdout"
+verbose success gzip "--decompress" "--stdout" "/tmp/npm-1317982219723/1317982219723-0.9770307645667344/tmp.tgz"
+verbose success tar "-mvxpf" "-" "-o" "-C" "/tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm"
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/README.md
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/package.json
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/.gitignore
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/index.js
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/memoryModel.js
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/compile.sh
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/lib/
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/lib/clientSkull.js
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/lib/memoryModel.js
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/lib/serverSkull.js
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/src/
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/src/serverSkull.coffee
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/src/memoryModel.coffee
+silly asyncMap in gTP /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs/src/clientSkull.coffee
+silly chmod compile.sh 755
+verbose gunzed /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs
+verbose rm'ed /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/package
+verbose renamed [ '/tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/___package.npm/skulljs',
+verbose renamed   '/tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/package' ]
+silly testEngine { name: 'skull.io',
+silly testEngine   version: '0.1.3',
+silly testEngine   description: 'Real-time web apps with Backbone.js and Socket.io',
+silly testEngine   homepage: 'http://skull.io',
+silly testEngine   keywords: 
+silly testEngine    [ 'backbone.js',
+silly testEngine      'skulljs',
+silly testEngine      'websocket',
+silly testEngine      'socket',
+silly testEngine      'realtime',
+silly testEngine      'socket.io',
+silly testEngine      'comet',
+silly testEngine      'ajax' ],
+silly testEngine   author: { name: 'Florin Braghis', email: 'florin@libertv.ro' },
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/codeboost/Skull.io.git' },
+silly testEngine   dependencies: { 'socket.io': '>=0.8.4', underscore: '*' },
+silly testEngine   main: 'index',
+silly testEngine   engines: { node: '>= 0.4.0' },
+silly testEngine   _npmJsonOpts: 
+silly testEngine    { file: '/tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/package/package.json',
+silly testEngine      wscript: false,
+silly testEngine      contributors: false,
+silly testEngine      serverjs: false },
+silly testEngine   _id: 'skull.io@0.1.3',
+silly testEngine   devDependencies: {},
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.27',
+silly testEngine   _nodeVersion: 'v0.4.9',
+silly testEngine   _defaultsLoaded: true,
+silly testEngine   path: '/tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/package' }
+verbose caching /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/package/package.json
+verbose loadDefaults skull.io@0.1.3
+verbose tarball contents [ 'package' ]
+verbose from cache /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/package/package.json
+verbose pack /tmp/npm-1317982219723/1317982219723-0.9770307645667344/contents/package /home/florin/.npm/skull.io/0.1.3/package.tgz
+verbose mkdir'ed /home/florin/.npm/skull.io/0.1.3
+verbose tar about to write tar and gzip it.
+silly tar args [ '-cvf',
+silly tar args   '-',
+silly tar args   'package/README.md',
+silly tar args   'package/package.json',
+silly tar args   'package/.gitignore',
+silly tar args   'package/index.js',
+silly tar args   'package/memoryModel.js',
+silly tar args   'package/compile.sh',
+silly tar args   'package/lib/clientSkull.js',
+silly tar args   'package/lib/memoryModel.js',
+silly tar args   'package/lib/serverSkull.js',
+silly tar args   'package/src/serverSkull.coffee',
+silly tar args   'package/src/memoryModel.coffee',
+silly tar args   'package/src/clientSkull.coffee' ]
+verbose success tar -cvf - <file list elided>
+verbose success gzip "--stdout"
+verbose mkdir (expected) error ENOENT, No such file or directory '/home/florin/.npm/skull.io/0.1.3/___package.npm'
+verbose mkdir done: /home/florin/.npm/skull.io/0.1.3/___package.npm 755
+verbose unpack_ uid, gid [ undefined, undefined ]
+verbose unpackTarget /home/florin/.npm/skull.io/0.1.3/package
+silly gunzTarPerm modes [ '755', '644' ]
+verbose success gzip "--decompress" "--stdout" "/home/florin/.npm/skull.io/0.1.3/package.tgz"
+verbose success tar "-mvxpf" "-" "-o" "-C" "/home/florin/.npm/skull.io/0.1.3/___package.npm"
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/README.md
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/package.json
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/.gitignore
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/index.js
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/memoryModel.js
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/compile.sh
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/lib/
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/lib/clientSkull.js
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/lib/memoryModel.js
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/lib/serverSkull.js
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/src/
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/src/serverSkull.coffee
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/src/memoryModel.coffee
+silly asyncMap in gTP /home/florin/.npm/skull.io/0.1.3/___package.npm/package/src/clientSkull.coffee
+verbose gunzed /home/florin/.npm/skull.io/0.1.3/___package.npm/package
+verbose rm'ed /home/florin/.npm/skull.io/0.1.3/package
+verbose renamed [ '/home/florin/.npm/skull.io/0.1.3/___package.npm/package',
+verbose renamed   '/home/florin/.npm/skull.io/0.1.3/package' ]
+silly testEngine { name: 'skull.io',
+silly testEngine   version: '0.1.3',
+silly testEngine   description: 'Real-time web apps with Backbone.js and Socket.io',
+silly testEngine   homepage: 'http://skull.io',
+silly testEngine   keywords: 
+silly testEngine    [ 'backbone.js',
+silly testEngine      'skulljs',
+silly testEngine      'websocket',
+silly testEngine      'socket',
+silly testEngine      'realtime',
+silly testEngine      'socket.io',
+silly testEngine      'comet',
+silly testEngine      'ajax' ],
+silly testEngine   author: { name: 'Florin Braghis', email: 'florin@libertv.ro' },
+silly testEngine   repository: 
+silly testEngine    { type: 'git',
+silly testEngine      url: 'git://github.com/codeboost/Skull.io.git' },
+silly testEngine   dependencies: { 'socket.io': '>=0.8.4', underscore: '*' },
+silly testEngine   main: 'index',
+silly testEngine   engines: { node: '>= 0.4.0' },
+silly testEngine   _npmJsonOpts: 
+silly testEngine    { file: '/home/florin/.npm/skull.io/0.1.3/package/package.json',
+silly testEngine      wscript: false,
+silly testEngine      contributors: false,
+silly testEngine      serverjs: false },
+silly testEngine   _id: 'skull.io@0.1.3',
+silly testEngine   devDependencies: {},
+silly testEngine   _engineSupported: true,
+silly testEngine   _npmVersion: '1.0.27',
+silly testEngine   _nodeVersion: 'v0.4.9',
+silly testEngine   _defaultsLoaded: true,
+silly testEngine   dist: 
+silly testEngine    { shasum: '5c620305ffb5a272e837f2fa728ba82d798f43f7',
+silly testEngine      tarball: 'http://registry.npmjs.org/skull.io/-/skull.io-0.1.3.tgz' } }
+verbose caching /home/florin/.npm/skull.io/0.1.3/package/package.json
+verbose loadDefaults skull.io@0.1.3
+silly updated sha bytes 7987
+info shasum 5c620305ffb5a272e837f2fa728ba82d798f43f7
+info shasum /home/florin/.npm/skull.io/0.1.3/package.tgz
+verbose from cache /home/florin/.npm/skull.io/0.1.3/package/package.json
+verbose chmod /home/florin/.npm/skull.io/0.1.3/package.tgz 644
+silly publish { name: 'skull.io',
+silly publish   version: '0.1.3',
+silly publish   description: 'Real-time web apps with Backbone.js and Socket.io',
+silly publish   homepage: 'http://skull.io',
+silly publish   keywords: 
+silly publish    [ 'backbone.js',
+silly publish      'skulljs',
+silly publish      'websocket',
+silly publish      'socket',
+silly publish      'realtime',
+silly publish      'socket.io',
+silly publish      'comet',
+silly publish      'ajax' ],
+silly publish   author: { name: 'Florin Braghis', email: 'florin@libertv.ro' },
+silly publish   repository: 
+silly publish    { type: 'git',
+silly publish      url: 'git://github.com/codeboost/Skull.io.git' },
+silly publish   dependencies: { 'socket.io': '>=0.8.4', underscore: '*' },
+silly publish   main: 'index',
+silly publish   engines: { node: '>= 0.4.0' },
+silly publish   _npmJsonOpts: 
+silly publish    { file: '/home/florin/.npm/skull.io/0.1.3/package/package.json',
+silly publish      wscript: false,
+silly publish      contributors: false,
+silly publish      serverjs: false },
+silly publish   _id: 'skull.io@0.1.3',
+silly publish   devDependencies: {},
+silly publish   _engineSupported: true,
+silly publish   _npmVersion: '1.0.27',
+silly publish   _nodeVersion: 'v0.4.9',
+silly publish   _defaultsLoaded: true,
+silly publish   dist: 
+silly publish    { shasum: '5c620305ffb5a272e837f2fa728ba82d798f43f7',
+silly publish      tarball: 'http://registry.npmjs.org/skull.io/-/skull.io-0.1.3.tgz' } }
+verbose PUT skull.io
+verbose raw, before any munging skull.io
+verbose url resolving [ 'https://registry.npmjs.org/', './skull.io' ]
+verbose url resolved https://registry.npmjs.org/skull.io
+verbose url parsed { protocol: 'https:',
+verbose url parsed   slashes: true,
+verbose url parsed   host: 'registry.npmjs.org',
+verbose url parsed   hostname: 'registry.npmjs.org',
+verbose url parsed   href: 'https://registry.npmjs.org/skull.io',
+verbose url parsed   pathname: '/skull.io' }
+silly writing json { _id: 'skull.io',
+silly writing json   name: 'skull.io',
+silly writing json   description: 'Real-time web apps with Backbone.js and Socket.io',
+silly writing json   'dist-tags': {},
+silly writing json   versions: {},
+silly writing json   maintainers: [ { name: 'codeboost', email: 'florin@libertv.ro' } ] }
+verbose response https://registry.npmjs.org/skull.io
+silly chunk {"error":"conflict","reason":"Document update conflict."}
+silly chunk 
+verbose GET skull.io
+verbose raw, before any munging skull.io
+verbose url resolving [ 'https://registry.npmjs.org/', './skull.io' ]
+verbose url resolved https://registry.npmjs.org/skull.io
+verbose url parsed { protocol: 'https:',
+verbose url parsed   slashes: true,
+verbose url parsed   host: 'registry.npmjs.org',
+verbose url parsed   hostname: 'registry.npmjs.org',
+verbose url parsed   href: 'https://registry.npmjs.org/skull.io',
+verbose url parsed   pathname: '/skull.io' }
+verbose response https://registry.npmjs.org/skull.io
+silly chunk {"_id":"skull.io","_rev":"9-5f9c370e11f461b00d6975c78e203e77","name":"skull.io","description":"Real-time web apps with Backbone.js and Socket.io","dist-tags":{"latest":"0.1.3"},"versions":{"0.1.0":{"name":"skull.io","version":"0.1.0","description":"Real-time web apps with Backbone.js and Socket.io","homepage":"http://skull.io","keywords":["backbone.js","skulljs","websocket","socket","realtime","socket.io","comet","ajax"],"author":{"name":"Florin Braghis","email":"florin@libertv.ro"},"repository":{"type":"git","url":"git://github.com/codeboost/skull.io.git"},"dependencies":{"socket.io":">=0.8.4","underscore":"*"},"main":"index","engines":{"node":">= 0.4.0"},"_npmJsonOpts":{"file":"/home/florin/.npm/skull.io/0.1.0/package/package.json","wscript":false,"contributors":false,"serverjs":false},"_id":"skull.io@0.1.0","devDependencies":{},"_engineSupported":true,"_npmVersion":"1.0.27","_nodeVersion":"v0.4.9","_defaultsLoaded":true,"dist":{"shasum":"d754afe1472ca45de24a0cc1d92dbc9e26dd9798","tarball":"http://registry.npmjs.org/skull.io/-/skull.io-0.1.0.tgz"},"maintainers":[{"name":"codeboost","email":"florin@libertv.ro"}],"directories":{}},"0.1.1":{"name":"skull.io","version":"0.1.1","description":"Real-time web apps with Backbone.js and Socket.io","homepage":"http://skull.io","keywords":["backbone.js","skulljs","websocket","socket","realtime","socket.io","comet","ajax"],"author":{"name":"Florin Braghis","email":"florin@libertv.ro"},"repository"
+silly chunk :{"type":"git","url":"git://github.com/codeboost/Skull.io.git"},"dependencies":{"socket.io":">=0.8.4","underscore":"*"},"main":"index","engines":{"node":">= 0.4.0"},"_npmJsonOpts":{"file":"/home/florin/.npm/skull.io/0.1.1/package/package.json","wscript":false,"contributors":false,"serverjs":false},"_id":"skull.io@0.1.1","devDependencies":{},"_engineSupported":true,"_npmVersion":"1.0.27","_nodeVersion":"v0.4.9","_defaultsLoaded":true,"dist":{"shasum":"6b19e13b1b73e74f6fc11d0891da0a1e9b88b405","tarball":"http://registry.npmjs.org/skull.io/-/skull.io-0.1.1.tgz"},"maintainers":[{"name":"codeboost","email":"florin@libertv.ro"}],"directories":{}},"0.1.2":{"name":"skull.io","version":"0.1.2","description":"Real-time web apps with Backbone.js and Socket.io","homepage":"http://skull.io","keywords":["backbone.js","skulljs","websocket","socket","realtime","socket.io","comet","ajax"],"author":{"name":"Florin Braghis","email":"florin@libertv.ro"},"repository":{"type":"git","url":"git://github.com/codeboost/Skull.io.git"},"dependencies":{"socket.io":">=0.8.4","underscore":"*"},"main":"index","engines":{"node":">= 0.4.0"},"_npmJsonOpts":{"file":"/home/florin/.npm/skull.io/0.1.2/package/package.json","wscript":false,"contributors":false,"serverjs":false},"_id":"skull.io@0.1.2","devDependencies":{},"_engineSupported":true,"_npmVersion":"1.0.27","_nodeVersion":"v0.4.9","_defaultsLoaded":true,"dist":{"shasum":"ec51fb9608adf40cab2d16899b79403aa7b66fa3","tarball":"http://registry.npmjs.org/skull.io/-/skull.io-0.1.2.tgz"},"maintainers":[{"name":"codeboost","email":"florin@libertv.ro"}],"directories":{}},"0.1.3":{"name":"skull.io","version":"0.1.3","description":"Real-time web apps with Backbone.js and Socket.io","homepage":"http://skull.io","keywords":["backbone.js","skulljs","websocket","socket","realtime","socket.io","comet","ajax"],"author":{"name":"Florin Braghis","email":"florin@libertv.ro"},"repository":{"type":"git","url":"git://github.com/codeboost/Skull.io.git"},"dependencies":{"socket.io":">=0.8.4","underscore":"*"},"main":"index","engines":{"node":">= 0.4.0"},"_npmJsonOpts":{"file":"/home/florin/.npm/skull.io/0.1.3/package/package.json","wscript":false,"contributors":false,"serverjs":false},"_id":"skull.io@0.1.3","devDependencies":{},"_engineSupported":true,"_npmVersion":"1.0.27","_nodeVersion":"v0.4.9","_defaultsLoaded":true,"dist":{"shasum":"05bc478c242ab07b160f5b2bc37a4b76738ccc3e","tarball":"http://registry.npmjs.org/skull.io/-/skull.io-0.1.3.tgz"},"maintainers":[{"name":"codeboost","email":"florin@libertv.ro"}],"directories":{}}},"maintainers":[{"name":"codeboost","email":"florin@libertv.ro"}],"time":{"0.1.0":"2011-09-19T13:54:25.093Z","0.1.1":"2011-09-26T18:46:56.282Z","0.1.2":"2011-09-26T18:52:51.769Z","0.1.3":"2011-09-26T18:55:48.020Z"},"author":{"name":"Florin Braghis","email":"florin@libertv.ro"},"repository":{"type":"git","url":"git://github.com/codeboost/Skull.io.git"}}
+info Already published skull.io@0.1.3
+verbose uploading bin dists []
+ERR! publish fail Cannot publish over existing version.
+ERR! publish fail Bump the 'version' field, set the --force flag, or
+ERR! publish fail     npm unpublish 'skull.io@0.1.3'
+ERR! publish fail and try again
+ERR! 
+ERR! System Linux 2.6.38-8-server
+ERR! command "node" "/usr/local/bin/npm" "publish"
+ERR! cwd /home/florin/UbuntuCode/skulljs
+ERR! node -v v0.4.9
+ERR! npm -v 1.0.27
+verbose exit [ 1, true ]
