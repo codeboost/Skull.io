@@ -100,7 +100,7 @@ class View
 					model.read data, (result, data) => 
 						callback result, data, model._locks
 						
-				@fuseEvents socket, model, ['create', 'update', 'delete', 'lock', 'unlock']
+				@fuseEvents socket, model, ['create', 'update', 'delete', 'lock', 'unlock', 'broadcast']
 				
 				#clients can emit commands, these are forwarded to the model
 				socket.on 'command', (name, data, callback)->
@@ -122,6 +122,9 @@ class View
 		socket.setMaxListeners 0
 		
 		_.each loEvents, (ev) ->
+			
+			#ignore events not handled by the model
+			if not model[ev] then return
 			
 			moHandler = ->
 				log 'From Model -> to Socket: ' + socket.id + ' : ' + ev + ': ' + util.inspect arguments[0]
@@ -145,7 +148,7 @@ class View
 					#args: arguments[2..]
 
 				data.__sid = socket.id if typeof data is 'object'
-				model[ev].call model, data, callback, extra
+				model[ev]?.call model, data, callback, extra
 				
 	authorize: (socket, success, error) -> success()
 		

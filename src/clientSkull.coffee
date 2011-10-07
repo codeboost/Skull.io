@@ -108,6 +108,9 @@ class Model extends LockableModel
 			@socket.on 'rejected', (modinfo) =>
 				@unset 'moderating'
 				@trigger 'rejected', modinfo
+				
+			@socket.on 'broadcast', (data) ->
+				@trigger 'broadcast', data
 		
 			@bind 'lock', (model, callback) =>
 				log 'model lock ' + @id
