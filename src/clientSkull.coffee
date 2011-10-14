@@ -9,8 +9,8 @@ Config = {}
 Config.debug = true
 exports.Config = Config
 	
-log = (msg) ->
-	console.log msg if Config.debug
+log = ->
+	console.log.apply console, arguments if Config.debug
 		
 class LockableModel extends Backbone.Model
 	constructor: () ->
@@ -110,7 +110,9 @@ class Model extends LockableModel
 				@trigger 'rejected', modinfo
 				
 			@socket.on 'broadcast', (data) =>
-				@trigger 'broadcast', data
+				#do not emit messages to ourselves
+				if data.__sid != @socket.socket.sessionid
+					@trigger 'server-broadcast', data
 		
 			@bind 'lock', (model, callback) =>
 				log 'model lock ' + @id
@@ -124,6 +126,11 @@ class Model extends LockableModel
 			@bind 'unlock', (model, callback) =>
 				log 'model unlock ' + @id
 				@socket.emit 'unlock', {id: model.id} if model.id
+				
+			@bind 'broadcast', (data, callback) =>
+				log 'Model broadcast ', data
+				@socket.emit 'broadcast', data, callback
+				
 				
 		super
 		
@@ -188,7 +195,8 @@ class Collection extends Backbone.Collection
 			@remove model if model
 			
 		@socket.on 'broadcast', (data) =>
-			@trigger 'broadcast', data
+			if data.__sid != @socket.socket.sessionid
+				@trigger 'server-broadcast', data
 
 		#server notifies that a model in this collection is locked
 		@socket.on 'lock', (locks, user) =>
@@ -238,6 +246,10 @@ class Collection extends Backbone.Collection
 		@bind 'unlock', (model) =>
 			log 'Collection unlock: ' + model.id
 			@socket.emit 'unlock', {id: model.id} if model.id
+
+		@bind 'broadcast', (data, callback) =>
+			log 'Collection broadcast ', data
+			@socket.emit 'broadcast', data, callback
 			
 		super 
 	

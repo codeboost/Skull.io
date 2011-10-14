@@ -97,13 +97,13 @@ class View
 					model.removeUserLocks socket.id
 					
 				socket.on 'read', (data, callback) => 
-					model.read data, (result, data) => 
-						callback result, data, model._locks
+					model.read? data, (result, data) => 
+						callback? result, data, model._locks
 						
 				@fuseEvents socket, model, ['create', 'update', 'delete', 'lock', 'unlock', 'broadcast']
 				
 				#clients can emit commands, these are forwarded to the model
-				socket.on 'command', (name, data, callback)->
+				socket.on 'command', (name, data, callback = ->)->
 					log 'Client command: ' + name
 					cb = model['client_' + name]
 					return callback?("command not supported") unless cb
@@ -126,10 +126,9 @@ class View
 			#ignore events not handled by the model
 			if not model[ev] then return
 			
-			moHandler = ->
+			moHandler = (data) ->
 				log 'From Model -> to Socket: ' + socket.id + ' : ' + ev + ': ' + util.inspect arguments[0]
-				[data, callback, o...] = arguments
-				socket.emit.call socket, ev, data, callback, o
+				socket.emit.call socket, ev, data
 
 			model.on ev, moHandler
 				
@@ -141,11 +140,10 @@ class View
 				log 'From Socket ' + socket.id + ' to model : ' + model.name + ' : ' + ev + ': ' + util.inspect arguments[0]
 				[data, callback] = arguments
 				
+				callback ?= ->
+					
 				extra = 
-					data: data
-					__sid: socket.id
 					socket: socket
-					#args: arguments[2..]
 
 				data.__sid = socket.id if typeof data is 'object'
 				model[ev]?.call model, data, callback, extra
