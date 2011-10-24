@@ -84,7 +84,10 @@ class View
 			
 			log 'New connection to ' + @name + ' from socket ' + socket.id
 			#call it if it's a function
-			model = @model?(socket, @name) ? @model
+			if typeof @model == 'function'
+				model = @model(socket, @name)
+			else
+				model = @model
 			
 			if not model
 				log 'Model lookup failed. Bailing out.'
@@ -94,7 +97,7 @@ class View
 			@authorize socket, =>				
 				socket.on 'disconnect', => 
 					log 'socket disconnected: ' + socket.id
-					model.removeUserLocks socket.id
+					model.removeUserLocks? socket.id
 					
 				socket.on 'read', (data, callback) => 
 					model.read? data, (result, data) => 
