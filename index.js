@@ -4,5 +4,5 @@
  * MIT Licensed
  */
 
-module.exports = require('./lib/serverSkull');
+module.exports = require('./lib/skull-server');
 

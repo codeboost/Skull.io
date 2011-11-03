@@ -1,0 +1,41 @@
+.clear-completed{
+	visibility: hidden;
+}
+ul.todos{
+	list-style: none;
+	font-size: 16px;
+}
+
+.todos li{
+	line-height: 32px;
+}
+
+.todos li .title{
+	display: inline;
+	padding-left: 4px;
+}
+
+.todos li.locked{
+	color: #ccc;
+}
+
+.todos li input{
+	display: inline;
+}
+
+.todos li input.edit-title{
+	margin-left: 4px;
+	font-size: 16px;
+}
+
+#app2 .image{
+}
+
+#app2 img{
+	max-width: 100%;
+}
+
+#app2.locked input{
+	border: 1px solid red;
+}
+

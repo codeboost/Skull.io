@@ -1,1 +1,2 @@
-coffee -c -w -o ./lib ./src 
+coffee -c -w example/ &
+coffee -c -w lib/ &
