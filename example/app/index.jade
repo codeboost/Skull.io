@@ -1,10 +1,10 @@
 !!! 5
 head
-	link(rel='stylesheet', type='text/css', href='css/bootstrap-1.3.0.css')
-	link(rel='stylesheet', type='text/css', href='css/todos.css')
 	title Skull.io test
-	!= partial('libs-include')
-	script(src='js/app.js')
+	link(rel='stylesheet', type='text/css', href='../common/css/bootstrap-1.3.0.css')
+	link(rel='stylesheet', type='text/css', href='../common/css/todos.css')
+	include ../common/libs-include
+	script(src='app/js/app.js')
 
 body
 	.container

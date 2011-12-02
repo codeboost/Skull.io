@@ -69,6 +69,19 @@ exports.Model = class Model extends EventEmitter
 	broadcast: (data, callback, socket) ->
 		@emit 'broadcast', data, socket
 		
+	#override this method inside your model if you want to 
+	#use more advanced filters. By default, the filter tries to match each key of the 'filter'
+	#parameter with the same key in the data
+	
+	matchFilter: (filters, data) ->
+		return true unless filters and data
+		filters = [filters] unless _.isArray filters
+		for filter in filters
+			for key, val of filter
+				return false unless data[key] == val
+		return true
+		
+		
 class ModelHelper
 	constructor: (@model, @methods, @socket, @name) ->		
 		@handlers = {}
@@ -128,7 +141,14 @@ class NSMgr extends EventEmitter
 			#client command isn't emitted by the models
 			@addSocketHandler socket, 'clientCommand'
 			
-				
+			socket.filter = {}
+			#filter lets the client set a filter for this model:socket pair. 
+			#The filter is the parameter to the 'read' method
+			#It is useful when the client wants to access only a subset of the data
+			#Eg. if clients only needs to work with orders from Spain, it will set up the filter like this:
+			#filter = {country: 'Spain'}
+			#Now the client will only receive model events where data.country is 'Spain'
+			#Models should implement proper filtering based on the parameter of the 'read' event
 			socket.on 'disconnect', => 
 				mdl.unlockAll(socket) for key, mdl of @models
 				console.log 'Socket ' + socket.id + ' disconnected'
@@ -149,9 +169,9 @@ class NSMgr extends EventEmitter
 		@addModelHandler model, name, methodName for methodName in @methods
 		console.log 'Model %s added', name
 		model
-	
-	addModelHandler: (model, modelName, eventName) ->
 		
+		
+	addModelHandler: (model, modelName, eventName) ->		
 		return unless model instanceof EventEmitter
 		
 		model.on eventName, (data, socket) =>
@@ -159,15 +179,23 @@ class NSMgr extends EventEmitter
 			#In that case, the event will NOT be sent to the emitting socket
 			#If the socket is not included, the message is broadcasted to everyone
 			
-			emitter = socket?.broadcast  
-			if emitter then console.log 'Using socket.broadcast'
-			emitter ?= @ns
-			console.log 'Emitting event %s on model %s', eventName, modelName
-			emitter.emit eventName, modelName, data
+			#If any sockets have a filter set up, the data must pass the filter 
+			
+			console.log 'Emitting event %s on model %s', eventName, modelName			
+			srcId = socket?.id
+			
+			for key, skt of @ns.sockets
+				if skt.id != srcId #do not emit to self
+					filter = skt.filter?[modelName]
+					if model.matchFilter filter, data #true if no filter or data passes filter
+						skt.emit eventName, modelName, data 
 
 	addSocketHandler: (socket, eventName) ->		
 		socket.on eventName, (modelName, data, callback) =>
-			console.log 'Event %s for model %s from client %s', eventName, modelName, socket.id
+			
+			if eventName == 'read' then socket.filter[modelName] = data
+			
+			console.log 'Event %s for model %s from client %s, data: %j', eventName, modelName, socket.id, data
 			model = @models[modelName]
 			model?[eventName]?(data, callback, socket)
 			#a listener might handle more complex model lookups or log all socket events

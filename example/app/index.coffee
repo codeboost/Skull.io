@@ -73,9 +73,9 @@ class UserSettings
 		if not existing then existing = @settings[sid] = new UserSetting sid
 		existing
 
-class exports.App 
+class App 
 	
-	createServer: (app) ->
+	constructor: (app) ->
 		
 		userSettings = new UserSettings
 		
@@ -116,7 +116,12 @@ class exports.App
 		@io.sockets.on 'connection', (socket) =>
 			console.log 'Socket connection from ', socket.id
 			
-			
+#Start the server
+expressApp = require('../express-core').init __dirname
+skullApp = new App expressApp
+port = 4000
+expressApp.listen port, ->
+	console.info 'Server started on port ' + port
 			
 			
 			

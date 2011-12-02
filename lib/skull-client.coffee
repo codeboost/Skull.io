@@ -114,18 +114,20 @@ class SkullClient
 		name = model.name?() ? model.collection.name?()
 		console.log '[Skull] %s: emit %s, %s', @clientName, method, name
 		
-		@socket.emit method, name, model.toJSON(), (err, data) ->
+		methodData = if method == 'read' then cbo.filter 
+		methodData ?= model.toJSON()
+		
+		@socket.emit method, name, methodData, (err, data) ->
 			if err == null 
 				cbo.success(data)
 			else
 				cbo.error model
 		
-#Static factory
 Skull.createClient = (socket) ->
 	Skull.clients ?= {}
 	Skull.clients[socket.name] = new SkullClient socket, socket.name
 	
-#Preserver the original Backbone.Sync
+#Preserve the original Backbone.Sync
 Skull.BackboneSync = Backbone.sync
 
 Backbone.sync = (method, model, cbo) ->
@@ -147,6 +149,9 @@ class Skull.Model extends Backbone.Model
 		
 	sid: ->
 		@_skull?.sid ? @collection.sid()
+		
+	addEmbedded: (model, name) ->
+		(@_skull ? @collection._skull).addModel model, name
 		
 	skullEmit: ->
 		emitter = @_skull?.socket ? @collection._skull?.socket
@@ -199,12 +204,15 @@ class Skull.Model extends Backbone.Model
 		
 class Skull.Collection extends Backbone.Collection
 	model: Skull.Model
-			
+
 	name: -> 
 		@url
 		
 	sid: -> 
-		@_skull?.sid
+		@_skull.sid
+		
+	addEmbedded: (model, name) ->
+		@_skull.addModel model, name
 		
 	setLockInfo: (lockinfo) ->	
 		return unless lockinfo

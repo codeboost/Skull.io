@@ -1,5 +1,5 @@
 (function() {
-  var ImageModel, Skull, TodoModel, UserSetting, UserSettings, express, io, _;
+  var App, ImageModel, Skull, TodoModel, UserSetting, UserSettings, express, expressApp, io, port, skullApp, _;
   var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
@@ -109,9 +109,8 @@
     };
     return UserSettings;
   })();
-  exports.App = (function() {
-    function App() {}
-    App.prototype.createServer = function(app) {
+  App = (function() {
+    function App(app) {
       var userSettings;
       userSettings = new UserSettings;
       this.io = io.listen(app);
@@ -146,10 +145,16 @@
           return console.log('User settings not found. This should not happen.');
         }
       }, this));
-      return this.io.sockets.on('connection', __bind(function(socket) {
+      this.io.sockets.on('connection', __bind(function(socket) {
         return console.log('Socket connection from ', socket.id);
       }, this));
-    };
+    }
     return App;
   })();
+  expressApp = require('../express-core').init(__dirname);
+  skullApp = new App(expressApp);
+  port = 4000;
+  expressApp.listen(port, function() {
+    return console.info('Server started on port ' + port);
+  });
 }).call(this);

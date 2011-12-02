@@ -6,7 +6,7 @@ A distributed realtime interface is a UI which can be viewed and edited in realt
 
 Skull.io is a 'glue' between Backbone Models and server-side models.
 
-It implements namespacing, model locking and 'private' models models.
+It implements namespacing, model locking, 'private' models and filtering.
 
 It is written in CoffeeScript and uses Socket.io.
 
@@ -16,11 +16,14 @@ Installation
 	npm install skull.io
 	
 
-Running the example app
+Running the examples
 -----------------------
 	
 	./compile.sh 
-	node example/app/server.js
+	node example/app
+or
+	
+	node example/emodels	
 	
 Now point two or more browsers to http://localhost:4000/ and make some changes. Observe how the changes are synchronized 
 between all browsers.
@@ -71,8 +74,49 @@ On the client
 Server-side models
 ------------------
 
-Must subclass Skull.Model and must implement the 'create', 'update', 'delete' methods.
-See example/app/example.coffee for examples on how to create the models.
+Must subclass Skull.Model and must implement the 'create', 'update', 'delete' and 'read' methods.
+See example/app/index.coffee for examples on how to create the models.
+
+A method has the following signature and implementation:
+
+	create: (data, callback, socket) ->
+		#save the data to the database or whatever
+		
+		#notify the initiating user that the action succeeded
+		callback null, data
+		
+		#emit the 'create' event. Skull will automatically broadcast this event to all other connected users. 
+		@emit 'create', data, socket
+
+		#The last parameter is the socket which initiated the action. If omitted, the event is sent to all 
+		#users in the namespace. 
+
+
+A model may also implement 'broadcast' and 'clientCommand' methods.
+
+The 'broadcast' event is used to notify other users of something. It usually doesn't involve changing the model's data.
+Client models will receive the 'server-broadcast' event, which you can bind to.
+This server-side snippet will just forward the event to all clients.
+
+	broadcast: (data, callback, socket) ->
+		callback null, data
+		@emit 'broadcast', data, socket
+
+	#client-side
+	@model.on 'server-broadcast', (data) -> alert(data)
+	
+The 'clientCommand' event is, well, a client command sent to the server. Other clients will not receive this event.
+For instance:
+
+	#client side
+	@model.emitCommand 'downloadFile', {url: 'http://www.google.com/'}, (err) -> alert('file downloaded') if err == null
+	
+	#server side model
+	clientCommand: (data, callback, socket) ->
+		#data._command is the command sent by the client
+		switch data._command 
+			when 'downloadFile' then @download(data.url, callback) 
+
 
 
 Client-side models
@@ -84,33 +128,29 @@ Must subclass Skull.Model. This is the only thing you must do in order to make y
 Private Models
 --------------
 
-Private models are models which contain different data depending on the user who accesses them (eg. user settings)
-These models must be derived from Skull.SidModel and they act as 'handlers' which forward messages between the client 
-and the model for that client.
-Check out the example app to see how we've implemented user settings.
+Private models are models which contain different data depending on the user who accesses them (eg. user settings).
+In your server-side code, these models must be derived from Skull.SidModel and they act as 'dispatchers' which forward messages between the client and the specific model for that client.
 
-
-License
--------
-
-MIT
-
-Acknowledgments
----------------
-
-This project would have been impossible without the incredible work of the wizards who created CoffeeScript, Backbone.js, 
-socket.io, express and of course node.js. For me these guys are an inspiration. 
+Check out *examples/app* to see how user settings are implemented there.
 
 
 Locking
 -------
+Model locking is used to handle multiple users trying to change the same model at the same time.
 
-There's a problem when more than one client tries to edit a model at the same time.
-To avoid the mess, Skull implements a simple model locking mechanism.
+The idea:
 
-Before you allow the user to edit a model, you first have to Lock the model. Then, when the server confirms that 
-it has locked the model, you can allow the user to make the edits.
-After you've finished editing the model, you should call the model.unlock() method.
+Before a model can be edited, call model.tryLock() on the client side. When the server confirms the lock, show the edit controls.
+Then call model.save() to commit the changes to the server. This will also unlock the model.
+If user cancels edit, call model.unlock(). 
+
+model.tryLock() may fail if another user is currently editing (holding the lock). In this case, the err argument of the callback will 
+be non-null.
+
+Models are automatically unlocked when the socket which holds the lock disconnects.
+
+
+Locking works on Skull.Model and Skull.Collection.
 
 
 Example:
@@ -132,7 +172,7 @@ Example:
 				.show()
 				...
 			else
-				alert 'Lock failed: ', err #or something like this
+				alert 'Lock failed: ', err 
 	
 	#Unlock the model if user cancels edit, eg:
 	@$('input').blur => @model.unlock()
@@ -142,8 +182,10 @@ Example:
 		@model.tryLock 'delete', (result) ->
 			@model.destroy() if result == null
 			
+See example/app for a working implementation of model locking.
 	
-API
+Lock API
+-------
 		
 	model.tryLock [method], [callback]
 
@@ -168,17 +210,57 @@ Boolean which is true when current user is holding the lock.
 
 	model.lockinfo [Read only]
 	
-Contains information about the lock, specifically the user who holds the lock.
+Contains information about the lock, specifically the user (socket id) that holds the lock.
 
 
+Filters / Embedded Models
+-------------------------
+
+Sometimes you only want to display a subset of the server model data.
+Imagine a list of Posts, with each post having multiple comments.
+
+You want to be able to display the comments for one post at a time, however, you also want that 
+users who open the same post to see the changes to the comments in real time.
+
+Filtering allows you to fetch only part of the collection and at the same time, allows multiple users
+to monitor parts of the model, by using the same filter.
+
+To achieve this, on the client side, you must add a parameter to the fetch call:
+
+	embeddedCollection.fetch filter: {post_id: @parentModel.get 'id'}
+	#only comments for current post
+
+And on the server side, you must implement the filtering in the 'read' method of your model:
+
+	read: (filter, callback, socket) ->
+		@database.query filter, (err, data) -> callback data, socket
+
+The format of the filter parameter depends on how you want to filter your data. Usually, it contains the id of 
+the parent item, but you can implement more advanced filters. To achieve this, override the 'matchFilter' method of your server-side model.
+
+The filter parameter can also be an array. This is useful if you want to display multiple subsets of the data:
+
+	model.fetch filter: [id_post: 1, id_post: 2]
 
 
+See the example/emodels sample which implements model filtering.
+Notice how browsers which display the same post receive update events, while others don't. 
 
 
+Database
+---------
 
+Because of how Backbone is designed, I find that it is more convenient to use a relational database to store your data on the server.
+Document stores, like MongoDB, can be used, but it requires you to model your data in a relational way, eg. I found it difficult to 
+elegantly use embedded documents/collections with Backbone + Skull.
 
+License
+-------
 
+MIT
 
+Acknowledgments
+---------------
 
-
-
+This project would have been impossible without the incredible work of the wizards who created CoffeeScript, Backbone.js, 
+socket.io, express and of course node.js. For me these guys are an inspiration. 

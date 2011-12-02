@@ -1,0 +1,44 @@
+!!! 5
+head
+	title Skull.io test
+	link(rel='stylesheet', type='text/css', href='../common/css/bootstrap-1.3.0.css')
+	link(rel='stylesheet', type='text/css', href='emodels/emodels.css')
+	include ../common/libs-include
+
+.container
+	.content
+		.page-header
+			h1 Test embedded models
+		.row
+			p Open this page in more than one browser. Select the same post in two or more browsers. Add a comment. Notice how 'create' events are only sent to browsers displaying the selected post.
+		.row
+			.span8
+				ul#posts
+			.span8#post-detail
+
+script#one-post(type='text/template')
+	a(href='#post/{{id}}') {{title}}
+
+script#one-comment(type='text/template')
+	.author {{author}}
+	.message {{text}}
+
+script#post-detail-template(type='text/template')
+	h3.title {{title}}
+	p.text  {{text}}
+	.comments
+	form(action='javascript: false')
+		.clearfix
+			label(for='author') Your name:
+			.input
+				input(type='text', name='author')
+		.clearfix
+			label(for='new-comment') Text:
+			.input
+				textarea(name='text')
+		.clearfix
+			.input
+				button.btn Submit
+
+
+script(src='emodels/js/app.js')
