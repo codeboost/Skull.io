@@ -14,16 +14,19 @@ Installation
 -------------
 
 	npm install skull.io
+
+To instal dependencies:
+
+	npm install 
 	
 
 Running the examples
 -----------------------
 	
-	./compile.sh 
-	node example/app
+	coffee example/app/index
 or
 	
-	node example/emodels	
+	coffee example/emodels/index	
 	
 Now point two or more browsers to http://localhost:4000/ and make some changes. Observe how the changes are synchronized 
 between all browsers.
