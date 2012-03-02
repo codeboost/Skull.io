@@ -1,7 +1,6 @@
 #Skull-client (c) 2011 Braghis Florin (florin@libertv.ro). MIT License
 
-window.module?.enter 'skull'
-window.Skull = {}
+Skull = window.Skull = {}
 
 Skull.isValidModel = (model) ->
 	(typeof model == 'object') and (model instanceof Skull.Model or model instanceof Skull.Collection)
@@ -232,8 +231,4 @@ class Skull.Collection extends Backbone.Collection
 		data._command = cmd
 		@_skull.socket.emit 'clientCommand', @name, data, callback
 			
-if exports
-	exports.Model = Skull.Model
-	exports.Collection = Skull.Collection
-	exports.createClient = Skull.createClient
 	

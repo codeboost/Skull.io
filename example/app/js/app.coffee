@@ -6,7 +6,8 @@ _.templateSettings = {
 
 $ ->
 	
-	Skull = require 'skull'
+	Skull = window.Skull
+	
 	class TodoItem extends Skull.Model
 		initialize: ->
 			@bind 'remove', => @view.remove() if @view

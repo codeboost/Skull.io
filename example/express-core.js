@@ -1,6 +1,8 @@
 (function() {
   var express;
+
   express = require('express');
+
   exports.init = function(viewsDir) {
     var app;
     app = express.createServer();
@@ -24,4 +26,5 @@
     });
     return app;
   };
+
 }).call(this);

@@ -5,7 +5,7 @@ _.templateSettings = {
 };
 
 $ ->
-	Skull = require 'skull'
+	Skull = window.Skull
 	
 	g_Posts = null
 	
