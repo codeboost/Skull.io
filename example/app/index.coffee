@@ -75,12 +75,9 @@ class UserSettings
 
 class App 
 	
-	constructor: (app) ->
-		
+	constructor: (@skullServer) ->
 		userSettings = new UserSettings
-		
-		@io = io.listen app
-		
+		@io = @skullServer.io
 		@io.set 'authorization', (data, cb) ->
 			res = {}
 			express.cookieParser() data, res, -> 
@@ -91,8 +88,6 @@ class App
 				data.sid = sid
 				cb(null, true)
 		
-		
-		@skullServer = new Skull.Server @io
 	
 		@global = @skullServer.of '/global'
 		@app = @skullServer.of '/app'
@@ -116,11 +111,16 @@ class App
 		@io.sockets.on 'connection', (socket) =>
 			console.log 'Socket connection from ', socket.id
 			
+
 #Start the server
-expressApp = require('../express-core').init __dirname
-skullApp = new App expressApp
+app = require('../express-core').init __dirname
+server = require('http').createServer(app)
+sio = io.listen server
+
+skullApp = new App (new Skull.Server(sio))
+
 port = 4000
-expressApp.listen port, ->
+server.listen port, ->
 	console.info 'Server started on port ' + port
 			
 			

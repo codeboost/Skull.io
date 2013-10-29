@@ -203,9 +203,6 @@ class NSMgr extends EventEmitter
 	
 class exports.Server
 	constructor: (@io) ->
-		dir = path.dirname module.filename
-		@io.server?.routes?.app.get '/skull.io/skull.io.js', (req, res) ->
-			res.sendfile path.join dir, 'skull-client.js'
 		
 	of: (namespace) ->
 		ns = @io.of namespace

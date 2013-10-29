@@ -1,7 +1,8 @@
 express = require 'express'
+app = express()
+path = require 'path'
 
 exports.init = (viewsDir) ->
-	app = express.createServer()
 	app.configure ->
 		app.use express.bodyParser()
 		app.use express.cookieParser()
@@ -14,5 +15,9 @@ exports.init = (viewsDir) ->
 	app.get '/', (req, res) ->
 		console.log 'Connect.sid ', req.cookies['connect.sid']
 		res.render 'index'
+
+	app.get '/skull.io/skull.io.js', (req, res) ->
+		res.sendfile path.join(__dirname, '../lib/skull-client.js')
+	
 	return app
 	

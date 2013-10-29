@@ -95,19 +95,22 @@ class Comments extends MemoryModel
 		
 
 class App
-	constructor: (app) ->
-		@io = io.listen app
-		@skullServer = new Skull.Server @io
-		
+	constructor: (@skullServer) ->
+		@io = @skullServer.io
 		@app = @skullServer.of '/app'
 
 		@app.addModel new Posts()					#Name is taken from ImageModel::name
 		@app.addModel new Comments()
 	
 
-#Start the server
-expressApp = require('../express-core').init __dirname
-skullApp = new App expressApp
+app = require('../express-core').init __dirname
+server = require('http').createServer(app)
+sio = io.listen server
+
+skullApp = new App (new Skull.Server(sio))
+
 port = 4000
-expressApp.listen port, ->
+server.listen port, ->
 	console.info 'Server started on port ' + port
+
+
