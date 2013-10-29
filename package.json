@@ -10,10 +10,10 @@
       , "url": "https://github.com/codeboost/Skull.io.git"
     }
   , "dependencies": {
-        "socket.io": ">=0.8.4",
+        "socket.io": "0.8.4",
 		"underscore": "*",
-		"express": "*",
-		"jade": "*"
+		"express": "2.4.4",
+		"jade": "0.20.3"
     }
   , "main": "index"
   , "engines": { "node": ">= 0.4.0" }
