@@ -23,10 +23,10 @@ To instal dependencies:
 Running the examples
 -----------------------
 	
-	coffee example/app/index
+	coffee example/app/index.coffee
 or
 	
-	coffee example/emodels/index	
+	coffee example/emodels/index.coffee	
 	
 Now point two or more browsers to http://localhost:4000/ and make some changes. Observe how the changes are synchronized 
 between all browsers.
