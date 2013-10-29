@@ -2,10 +2,11 @@
 
 Skull = window.Skull = {}
 
+#return true if the model is an instance of Skull.Model/Collection
 Skull.isValidModel = (model) ->
 	(typeof model == 'object') and (model instanceof Skull.Model or model instanceof Skull.Collection)
 	
-#Called by a server event
+#Called when the server has locked the model
 #isLocked -> model locked for editing 
 #isLockedByMe -> I am the locker, I can edit it, everyone else can't
 serverLockModel = (model, lockinfo, silent) ->
@@ -16,7 +17,7 @@ serverLockModel = (model, lockinfo, silent) ->
 	model.lockinfo = lockinfo
 	model.trigger 'locked', lockedByMe, lockinfo 
 
-#Server unlocked the model. 
+#Called when server has unlocked the model
 #Mark it as unlocked and trigger event
 serverUnlockModel = (model, lockinfo) ->
 	return unless model
@@ -25,29 +26,41 @@ serverUnlockModel = (model, lockinfo) ->
 	delete model.lockinfo
 	model.trigger 'unlocked' 
 	
+
+#Backbone.Model and Backbone.Collection CRUD methods have slightly different semantics
+#These Helpers are an attempt to unify them 
+
+#Helper which calls the appropirate methods on the Backbone.Model objects
 class ModelHelper 
 	constructor: (@model, @name) ->
 		if not @model instanceof Skull.Model then throw 'Skull.Model expected'
 
+	#received a 'create' notification
 	create: (data) -> 
 		@model.collection?.create data
 		#if there's no collection, create doesn't make sense on an existing model?
-		
+	
+	#received an 'update' notification
 	update: (data) ->
 		@model.set data
 	
+	#received a 'delete' notification
 	delete: -> 
 		@model.destroy()
-		
+	
+	#received a lock notification
 	lock: (lockinfo) ->
 		serverLockModel @model, lockinfo
-		
+
+	#received an unlock notification
 	unlock: (lockinfo) ->
 		serverUnlockModel @model, lockinfo
-	
+
+	#received a broadcast 
 	broadcast: (data) ->
 		@model.trigger 'server-broadcast', data
 		
+#Helper which calls appropriate methods on the Backbone.Collection
 class CollectionHelper
 	constructor: (@collection, @name) ->
 		if not @collection instanceof Skull.Collection then throw 'Skull.Collection expected'
@@ -83,19 +96,45 @@ class CollectionHelper
 	
 	broadcast: (data) ->
 		@collection.trigger 'server-broadcast', data
-	
+
+
+#The app can have multiple 'Namespaces', eg. Categories of models/collection
+#Here the 'namespace' capability of socket.io is used, which creates a 'virtual socket' for every namespace.
+
+#If on the server you created a namespace:
+#	appNS = @skullServer.of '/app'
+
+#On the client you would use:
+#appNS = Skull.createClient sio.of('/app')
+
+#You can then add your models to that namespace:
+#appNS.addModel myModel, 'someName'
+
+
+#This implements a Namespace connection between the client and the server.
 class SkullClient
 	constructor: (@socket, @clientName) ->
 		@models = {}
 		@sid = @socket.socket.sessionid
+
+		#Add a handler for every event we receive on the socket.
 		@addHandler eventName for eventName in ['create', 'update', 'delete', 'lock', 'unlock', 'broadcast']
 	
+	#Add a handler to handle an event from the socket.
+	#The event received has the following arguments:
+	#eventName - create, update, delete, lock, unlock...
+	#modelName - the model name (added by addModel model, name, eg. '/messages')
+	#eventData - the data associated with the event
 	addHandler: (eventName) ->
 		@socket.on eventName, (modelName, data) =>
 			console.log 'Skull: Socket %s, %s', eventName, modelName
 			model = @models[modelName]
+			#model here is either a ModelHelper or CollectionHelper
+			#Call one of the CRUD methods on the helper which in turn will forward the data to the Backbone.Model or Backbone.Collection
 			model?[eventName]?(data)
 			
+	#Register a model with the server. Each client-side model must have a corresponding server-side model with the same name.
+	#After adding the model, events triggered by the model will be broadcast to the same model of other clients 
 	addModel: (model, name) ->
 		#guard against further exceptions if model isn't a Skull.Model/Collection
 		if not Skull.isValidModel(model) then throw 'Skull.Model or Skull.Collection expected!'
@@ -107,7 +146,9 @@ class SkullClient
 		model.sync = @sync
 		@models[name] = new Helper model, name
 		model
-	
+
+	#The modified Backbone.Model.sync method
+	#Sends the CRUD events to the server
 	sync: (method, model, cbo) =>
 		
 		name = model.name?() ? model.collection.name?()
@@ -121,7 +162,8 @@ class SkullClient
 				cbo.success(data)
 			else
 				cbo.error model
-		
+
+#Create a Skull.Io client
 Skull.createClient = (socket) ->
 	Skull.clients ?= {}
 	Skull.clients[socket.name] = new SkullClient socket, socket.name
@@ -135,7 +177,8 @@ Backbone.sync = (method, model, cbo) ->
 	sync = (model.sync ? model.collection?.sync) ? Skull.BackboneSync
 	sync?(method, model, cbo)
 	
-
+#Extends the Backbone.Model with Skull-specific methods
+#which enable locking and broadcasting
 class Skull.Model extends Backbone.Model
 	isLocked: false
 	isLockedByMe: false
